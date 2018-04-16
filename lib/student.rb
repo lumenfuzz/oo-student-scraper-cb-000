@@ -6,7 +6,7 @@ class Student
 
   def initialize(student_hash)
     student_hash.each do |key, value|
-      instance_variable_set("@#{k}", v) unless v.nil?
+      instance_variable_set("@#{key}", value) unless value.nil?
     end
   end
 
