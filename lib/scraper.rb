@@ -37,8 +37,8 @@ class Scraper
         hash[:blog] = media_url
       end
     end
-    hash[:profile_quote] = doc.css(".vitals-text-container .profile-quote").text
-    hash[:bio] = doc.css(".bio-block .description-holder").text
+    hash[:profile_quote] = doc.css(".vitals-text-container .profile-quote").text.strip
+    hash[:bio] = doc.css(".bio-block .description-holder").text.strip
     puts hash
     return hash
   end
