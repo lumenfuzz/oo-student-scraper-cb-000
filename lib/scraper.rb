@@ -24,13 +24,20 @@ class Scraper
   def self.scrape_profile_page(profile_url)
     doc = Nokogiri::HTML(open(profile_url))
     social_media = doc.css(".social-icon-container a")
-    i = 0
-    social_media.each do |media_url|
-      puts media_url["href"]
-      puts i
-      i += 1
-    end
     hash = {}
+    social_media.each do |media_html|
+      media_url = media_html["href"]
+      if media_url.start_with? "https://twitter.com"
+        hash[:twitter] = media_url
+      elsif media_url.start_with? "https://www.linkedin.com"
+        hash[:linkedin] = media_url
+      elsif media_url.start_with? "https://github.com"
+        hash[:github] = media_url
+      else
+        hash[:blog] = media_url
+      end
+    end
+
     return hash
   end
 
