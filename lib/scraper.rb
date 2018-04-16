@@ -5,10 +5,10 @@ require 'pry'
 class Scraper
 
   def self.scrape_index_page(index_url)
+    student_hash_array = []
     doc = Nokogiri::HTML(open(index_url))
     student_info = doc.css(".card-text-container").text.split("\n").drop(1)
     student_urls = doc.css(".student-card a")
-    student_hash_array = []
     i = 0
     student_urls.each do |student_url|
       student_hash_array << {
@@ -22,10 +22,9 @@ class Scraper
   end
 
   def self.scrape_profile_page(profile_url)
+    hash = {}
     doc = Nokogiri::HTML(open(profile_url))
     social_media = doc.css(".social-icon-container a")
-    profile_quote = doc.css(".vitals-text-container .profile-quote")
-    hash = {}
     social_media.each do |media_html|
       media_url = media_html["href"]
       if media_url.start_with? "https://twitter.com"
@@ -38,7 +37,7 @@ class Scraper
         hash[:blog] = media_url
       end
     end
-
+    hash[:profile_quote] = doc.css(".vitals-text-container .profile-quote")
     return hash
   end
 
